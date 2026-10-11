@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WAD — Full Stack Developer</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg: #f8f7f3;
+        --bg-secondary: #f2efe8;
+        --surface: rgba(255, 255, 255, 0.78);
+        --text: #181714;
+        --muted: #77736b;
+        --accent: #b38a4b;
+        --accent-soft: rgba(179, 138, 75, 0.12);
+        --accent-glow: rgba(179, 138, 75, 0.16);
+        --border: rgba(24, 23, 20, 0.09);
+        --button-text: #ffffff;
+        --shadow: rgba(20, 18, 14, 0.08);
+      }
+
+      body {
+        min-height: 100vh;
+        font-family: "Manrope", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(
+            circle at 78% 18%,
+            var(--accent-glow),
+            transparent 28%
+          ),
+          radial-gradient(
+            circle at 15% 80%,
+            var(--accent-soft),
+            transparent 30%
+          ),
+          var(--bg);
+        transition:
+          background 0.45s ease,
+          color 0.45s ease;
+        overflow-x: hidden;
+      }
+
+      /* =========================
+       THEME SWITCHER
+    ========================== */
+
+      .theme-switcher {
+        position: fixed;
+        top: 24px;
+        right: 28px;
+        z-index: 20;
+
+        display: flex;
+        align-items: center;
+        gap: 7px;
+
+        padding: 8px 10px;
+
+        background: rgba(255, 255, 255, 0.72);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 999px;
+
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.07);
+      }
+
+      .theme {
+        width: 22px;
+        height: 22px;
+
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.9);
+
+        cursor: pointer;
+
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      .theme:hover {
+        transform: scale(1.15);
+      }
+
+      .theme.active {
+        transform: scale(1.15);
+        box-shadow:
+          0 0 0 2px var(--text),
+          0 0 0 4px rgba(255, 255, 255, 0.8);
+      }
+
+      .theme-1 {
+        background: linear-gradient(135deg, #f8f4eb 50%, #b38a4b 50%);
+      }
+
+      .theme-2 {
+        background: linear-gradient(135deg, #f6f9ff 50%, #2563eb 50%);
+      }
+
+      .theme-3 {
+        background: linear-gradient(135deg, #faf9ff 50%, #7354e8 50%);
+      }
+
+      .theme-4 {
+        background: linear-gradient(135deg, #faf7f2 50%, #a65d40 50%);
+      }
+
+      .theme-5 {
+        background: linear-gradient(135deg, #f5faf8 50%, #087f6b 50%);
+      }
+
+      /* =========================
+       HERO
+    ========================== */
+
+      .hero {
+        position: relative;
+        min-height: 100vh;
+
+        display: flex;
+        align-items: center;
+
+        padding: 120px 8vw 100px;
+      }
+
+      .hero-inner {
+        width: 100%;
+        max-width: 1120px;
+        margin: 0 auto;
+      }
+
+      .content {
+        max-width: 900px;
+      }
+
+      /* =========================
+       BADGE
+    ========================== */
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+
+        padding: 9px 15px;
+
+        color: var(--text);
+        background: var(--surface);
+
+        border: 1px solid var(--border);
+        border-radius: 999px;
+
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+
+        box-shadow: 0 8px 30px var(--shadow);
+
+        margin-bottom: 34px;
+
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+      }
+
+      .status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--accent);
+
+        box-shadow: 0 0 0 5px var(--accent-soft);
+      }
+
+      /* =========================
+       INTRO
+    ========================== */
+
+      .intro {
+        font-size: 17px;
+        line-height: 1.6;
+        font-weight: 600;
+        color: var(--muted);
+
+        margin-bottom: 22px;
+      }
+
+      .intro strong {
+        color: var(--text);
+        font-weight: 800;
+      }
+
+      /* =========================
+       HEADING
+    ========================== */
+
+      h1 {
+        max-width: 900px;
+
+        font-size: clamp(52px, 7vw, 92px);
+        line-height: 0.98;
+        letter-spacing: -0.065em;
+        font-weight: 800;
+
+        color: var(--text);
+      }
+
+      h1 .accent {
+        color: var(--accent);
+        transition: color 0.45s ease;
+      }
+
+      /* =========================
+       DESCRIPTION
+    ========================== */
+
+      .description {
+        max-width: 690px;
+
+        margin-top: 32px;
+
+        font-size: 17px;
+        line-height: 1.75;
+
+        color: var(--muted);
+      }
+
+      /* =========================
+       BUTTONS
+    ========================== */
+
+      .actions {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+
+        margin-top: 42px;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+
+        min-height: 52px;
+        padding: 0 22px;
+
+        border-radius: 12px;
+
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 700;
+
+        text-decoration: none;
+
+        transition:
+          transform 0.2s ease,
+          background 0.25s ease,
+          border-color 0.25s ease,
+          color 0.25s ease,
+          box-shadow 0.25s ease;
+      }
+
+      .btn-primary {
+        color: var(--button-text);
+        background: var(--accent);
+
+        box-shadow: 0 12px 30px var(--accent-soft);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 38px var(--accent-soft);
+      }
+
+      .btn-secondary {
+        color: var(--text);
+        background: transparent;
+
+        border: 1px solid var(--border);
+      }
+
+      .btn-secondary:hover {
+        transform: translateY(-2px);
+        background: var(--surface);
+        border-color: var(--accent);
+      }
+
+      .arrow {
+        font-size: 18px;
+        line-height: 1;
+        transition: transform 0.2s ease;
+      }
+
+      .btn-primary:hover .arrow {
+        transform: translateX(3px);
+      }
+
+      /* =========================
+       DECORATIVE GRID
+    ========================== */
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+
+        background-image:
+          linear-gradient(var(--border) 1px, transparent 1px),
+          linear-gradient(90deg, var(--border) 1px, transparent 1px);
+
+        background-size: 80px 80px;
+
+        mask-image: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.16),
+          transparent 65%
+        );
+
+        pointer-events: none;
+        opacity: 0.32;
+      }
+
+      .hero-inner {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* =========================
+       RESPONSIVE
+    ========================== */
+
+      @media (max-width: 700px) {
+        .theme-switcher {
+          top: 16px;
+          right: 16px;
+        }
+
+        .hero {
+          min-height: 100svh;
+          padding: 110px 24px 70px;
+        }
+
+        .badge {
+          margin-bottom: 28px;
+        }
+
+        h1 {
+          font-size: clamp(46px, 13vw, 70px);
+        }
+
+        .description {
+          font-size: 15px;
+          line-height: 1.7;
+        }
+
+        .actions {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .btn {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Theme Switcher -->
+    <div class="theme-switcher">
+      <button
+        class="theme theme-1 active"
+        data-theme="luxury"
+        aria-label="Ivory Champagne"
+      ></button>
+
+      <button
+        class="theme theme-2"
+        data-theme="tech"
+        aria-label="White Electric Blue"
+      ></button>
+
+      <button
+        class="theme theme-3"
+        data-theme="creative"
+        aria-label="White Violet"
+      ></button>
+
+      <button
+        class="theme theme-4"
+        data-theme="copper"
+        aria-label="Cream Copper"
+      ></button>
+
+      <button
+        class="theme theme-5"
+        data-theme="emerald"
+        aria-label="White Emerald"
+      ></button>
+    </div>
+
+    <!-- HERO -->
+    <section id="home" class="hero">
+      <div class="hero-inner">
+        <div class="content">
+          <div class="badge">
+            <span class="status-dot"></span>
+            Available for Freelance Projects
+          </div>
+
+          <p class="intro">
+            Hi, I'm <strong>Studio Name</strong> — Full Stack Developer.
+          </p>
+
+          <h1>
+            I build fast, modern<br />
+            <span class="accent">websites</span> that help<br />
+            businesses grow online.
+          </h1>
+
+          <p class="description">
+            I help businesses turn visitors into customers with clean
+            architecture, pixel-perfection, lightning-fast performance, and a
+            smooth user experience.
+          </p>
+
+          <div class="actions">
+            <a href="#projects" class="btn btn-primary">
+              View My Work
+              <span class="arrow">→</span>
+            </a>
+
+            <a href="#contact" class="btn btn-secondary"> Let's Talk </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      const themes = {
+        /* 1 — LUXURY */
+        luxury: {
+          bg: "#f8f7f3",
+          bgSecondary: "#f2efe8",
+          surface: "rgba(255,255,255,0.78)",
+          text: "#181714",
+          muted: "#77736b",
+          accent: "#b38a4b",
+          accentSoft: "rgba(179,138,75,0.12)",
+          accentGlow: "rgba(179,138,75,0.16)",
+          border: "rgba(24,23,20,0.09)",
+          buttonText: "#ffffff",
+          shadow: "rgba(20,18,14,0.08)",
+        },
+
+        /* 2 — MODERN TECH */
+        tech: {
+          bg: "#f7f9fc",
+          bgSecondary: "#eef3f9",
+          surface: "rgba(255,255,255,0.82)",
+          text: "#111827",
+          muted: "#6b7280",
+          accent: "#2563eb",
+          accentSoft: "rgba(37,99,235,0.11)",
+          accentGlow: "rgba(37,99,235,0.15)",
+          border: "rgba(15,23,42,0.09)",
+          buttonText: "#ffffff",
+          shadow: "rgba(15,23,42,0.07)",
+        },
+
+        /* 3 — PREMIUM CREATIVE */
+        creative: {
+          bg: "#faf9ff",
+          bgSecondary: "#f2effb",
+          surface: "rgba(255,255,255,0.82)",
+          text: "#191722",
+          muted: "#777387",
+          accent: "#7354e8",
+          accentSoft: "rgba(115,84,232,0.11)",
+          accentGlow: "rgba(115,84,232,0.15)",
+          border: "rgba(25,23,34,0.09)",
+          buttonText: "#ffffff",
+          shadow: "rgba(25,23,34,0.07)",
+        },
+
+        /* 4 — ELEGANT COPPER */
+        copper: {
+          bg: "#faf7f2",
+          bgSecondary: "#f3ece5",
+          surface: "rgba(255,255,255,0.80)",
+          text: "#241c18",
+          muted: "#7d7169",
+          accent: "#a65d40",
+          accentSoft: "rgba(166,93,64,0.11)",
+          accentGlow: "rgba(166,93,64,0.15)",
+          border: "rgba(36,28,24,0.09)",
+          buttonText: "#ffffff",
+          shadow: "rgba(36,28,24,0.07)",
+        },
+
+        /* 5 — FRESH EMERALD */
+        emerald: {
+          bg: "#f6faf8",
+          bgSecondary: "#edf5f1",
+          surface: "rgba(255,255,255,0.82)",
+          text: "#10231d",
+          muted: "#687872",
+          accent: "#087f6b",
+          accentSoft: "rgba(8,127,107,0.11)",
+          accentGlow: "rgba(8,127,107,0.15)",
+          border: "rgba(16,35,29,0.09)",
+          buttonText: "#ffffff",
+          shadow: "rgba(16,35,29,0.07)",
+        },
+      };
+
+      const root = document.documentElement;
+      const buttons = document.querySelectorAll(".theme");
+
+      function applyTheme(name) {
+        const theme = themes[name];
+
+        root.style.setProperty("--bg", theme.bg);
+        root.style.setProperty("--bg-secondary", theme.bgSecondary);
+        root.style.setProperty("--surface", theme.surface);
+        root.style.setProperty("--text", theme.text);
+        root.style.setProperty("--muted", theme.muted);
+        root.style.setProperty("--accent", theme.accent);
+        root.style.setProperty("--accent-soft", theme.accentSoft);
+        root.style.setProperty("--accent-glow", theme.accentGlow);
+        root.style.setProperty("--border", theme.border);
+        root.style.setProperty("--button-text", theme.buttonText);
+        root.style.setProperty("--shadow", theme.shadow);
+
+        buttons.forEach((button) => {
+          button.classList.toggle("active", button.dataset.theme === name);
+        });
+      }
+
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          applyTheme(button.dataset.theme);
+        });
+      });
+    </script>
+  </body>
+</html>
